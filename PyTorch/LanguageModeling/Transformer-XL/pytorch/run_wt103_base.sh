@@ -17,7 +17,8 @@
 if [[ "$1" == 'train' ]]; then
     echo 'Run training...'
     python -m torch.distributed.launch --nproc_per_node="$2" train.py \
-        --config_file wt103_base.yaml \
+        --config_file wt103_base.yaml --config rtx3090_fp16 \
+        --max_step 200 --txtlog_file train1.log \
         "${@:3}"
 elif [[ "$1" == 'eval' ]]; then
     echo 'Run evaluation...'
@@ -27,3 +28,7 @@ elif [[ "$1" == 'eval' ]]; then
 else
     echo 'unknown argment 1'
 fi
+
+
+
+

@@ -1,8 +1,9 @@
 #!/bin/bash
+num_gpus=4
 
 if [[ $1 == 'train' ]]; then
     echo 'Run training...'
-    python train.py \
+    python -m torch.distributed.launch --nproc_per_node=$num_gpus train.py \
         --cuda \
         --data ../data/one-billion-words/ \
         --dataset lm1b \
@@ -17,18 +18,18 @@ if [[ $1 == 'train' ]]; then
         --dropatt 0.0 \
         --optim adam \
         --warmup_step 20000 \
-        --max_step 500000 \
+        --max_step 20 \
         --lr 0.00025 \
         --tgt_len 32 \
         --mem_len 32 \
         --eval_tgt_len 32 \
         --batch_size 224 \
-        --multi_gpu \
+        --multi_gpu ddp \
         --gpu0_bsz 32 \
         ${@:2}
 elif [[ $1 == 'eval' ]]; then
     echo 'Run evaluation...'
-    python eval.py \
+    python -m torch.distributed.launch --nproc_per_node=$num_gpus eval.py \
         --cuda \
         --data ../data/one-billion-words/ \
         --dataset lm1b \

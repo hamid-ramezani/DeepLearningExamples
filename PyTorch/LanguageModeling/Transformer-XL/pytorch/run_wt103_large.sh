@@ -17,7 +17,7 @@
 if [[ $1 == 'train' ]]; then
     echo 'Run training...'
     python -m torch.distributed.launch --nproc_per_node="$2" train.py \
-        --config_file wt103_large.yaml \
+        --config_file wt103_large.yaml --max_step 200 --config rtx3090_fp16  \
         "${@:3}"
 elif [[ $1 == 'eval' ]]; then
     echo 'Run evaluation...'

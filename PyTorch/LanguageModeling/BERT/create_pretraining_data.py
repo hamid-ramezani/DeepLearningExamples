@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # coding=utf-8
 # Copyright (c) 2019 NVIDIA CORPORATION. All rights reserved.
 # Copyright 2018 The Google AI Language Team Authors and The HugginFace Inc. team.
@@ -13,7 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Create masked LM/next sentence masked_lm TF examples for BERT."""
+#"""Create masked LM/next sentence masked_lm TF examples for BERT."""
+
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse

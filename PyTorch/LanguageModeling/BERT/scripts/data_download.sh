@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-DATA_DIR=${1:-/workspace/bert/data}
+DATA_DIR=${1:~/nfs/scistore14/alistgrp/hramezan/DeepLearningExamples/PyTorch/LanguageModeling/BERT/data}
 
 # Download vocab files from pretrained model
 cd vocab && python3 download_models.py && rm *.zip && rm ./*/*.ckpt.*

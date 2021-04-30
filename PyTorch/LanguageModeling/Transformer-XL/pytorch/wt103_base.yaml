@@ -18,7 +18,7 @@ train: &train
    eta_min: 0.001
    roll: true
    warmup_step: 1000
-   max_step: 40000
+   max_step: 500 
    tgt_len: 192
    mem_len: 192
    eval_tgt_len: 192
@@ -254,6 +254,23 @@ dgxa100_1gpu_tf32: &dgxa100_1gpu_tf32
    train:
       <<: *train
       batch_chunk: 8
+   eval:
+      <<: *eval
+
+rtx3090_fp16: &rtx3090_fp16
+   train:
+      <<: *train
+      fp16: true
+      append_dataset: false
+      no_eval: false
+   eval:
+      <<: *eval
+
+rtx3090_fp32: &rtx3090_fp32
+   train:
+      <<: *train
+      append_dataset: false
+      no_eval: false
    eval:
       <<: *eval
 

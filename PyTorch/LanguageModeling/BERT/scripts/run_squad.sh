@@ -20,14 +20,15 @@ epochs=${2:-"2.0"}
 batch_size=${3:-"4"}
 learning_rate=${4:-"3e-5"}
 precision=${5:-"fp16"}
-num_gpu=${6:-"8"}
+num_gpu=${6:-"4"}
 seed=${7:-"1"}
 squad_dir=${8:-"$BERT_PREP_WORKING_DIR/download/squad/v1.1"}
 vocab_file=${9:-"$BERT_PREP_WORKING_DIR/download/google_pretrained_weights/uncased_L-24_H-1024_A-16/vocab.txt"}
 OUT_DIR=${10:-"/workspace/bert/results/SQuAD"}
 mode=${11:-"train eval"}
 CONFIG_FILE=${12:-"/workspace/bert/bert_config.json"}
-max_steps=${13:-"-1"} 
+max_steps=${13:-"10"} 
+#max_steps=${13:-"-1"} 
 
 echo "out dir is $OUT_DIR"
 mkdir -p $OUT_DIR
@@ -46,7 +47,7 @@ if [ "$num_gpu" = "1" ] ; then
   export CUDA_VISIBLE_DEVICES=0
   mpi_command=""
 else
-  unset CUDA_VISIBLE_DEVICES
+  #unset CUDA_VISIBLE_DEVICES
   mpi_command=" -m torch.distributed.launch --nproc_per_node=$num_gpu"
 fi
 

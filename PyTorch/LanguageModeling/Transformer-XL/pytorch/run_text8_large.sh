@@ -1,8 +1,11 @@
 #!/bin/bash
 
+
+num_gpus=4
+
 if [[ $1 == 'train' ]]; then
     echo 'Run training...'
-    python train.py \
+    python -m torch.distributed.launch --nproc_per_node=$num_gpus train.py \
         --cuda \
         --data ../data/text8/ \
         --dataset text8 \
@@ -18,8 +21,9 @@ if [[ $1 == 'train' ]]; then
         --tgt_len 768 \
         --mem_len 768 \
         --eval_tgt_len 128 \
-        --batch_size 64 \
-        --max_step 400000 \
+        --batch_size 4 \
+        --max_step 10 \
+        --multi_gpu ddp \
         ${@:2}
 elif [[ $1 == 'eval' ]]; then
     echo 'Run evaluation...'

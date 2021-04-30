@@ -40,7 +40,8 @@ try:
 except ModuleNotFoundError:
     warnings.warn('PyProf is unavailable')
 
-from torch.nn.parallel import DistributedDataParallel
+#from torch.nn.parallel import DistributedDataParallel
+from apex.parallel import DistributedDataParallel
 
 import lamb
 import utils
@@ -882,12 +883,16 @@ def main():
                 )
 
     if args.multi_gpu == 'ddp' and torch.distributed.is_initialized():
+        #para_model = DistributedDataParallel(model,
+        #                                     device_ids=[args.local_rank],
+        #                                     output_device=args.local_rank,
+        #                                     broadcast_buffers=False,
+        #                                     find_unused_parameters=True,
+        #                                     )
+
         para_model = DistributedDataParallel(model,
-                                             device_ids=[args.local_rank],
-                                             output_device=args.local_rank,
-                                             broadcast_buffers=False,
-                                             find_unused_parameters=True,
-                                             )
+  					     allreduce_always_fp32=True
+                                            )
     elif args.multi_gpu == 'dp':
         if args.gpu0_bsz >= 0:
             para_model = BalancedDataParallel(args.gpu0_bsz // args.batch_chunk,
