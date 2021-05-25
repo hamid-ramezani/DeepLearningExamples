@@ -23,7 +23,7 @@ train: &train
    mem_len: 384
    init_std: 0.005
    eval_tgt_len: 128
-   batch_size: 128
+   batch_size: 32
    multi_gpu: ddp
    log_interval: 100
    eval_interval: 5000
@@ -345,7 +345,6 @@ rtx3090_fp16: &rtx3090_fp16
    train:
       <<: *train
       fp16: true
-      batch_chunk: 4
       append_dataset: false
       no_eval: false
    eval:
@@ -354,7 +353,6 @@ rtx3090_fp16: &rtx3090_fp16
 rtx3090_fp32: &rtx3090_fp32
    train:
       <<: *train
-      batch_chunk: 4
       append_dataset: false
       no_eval: false
    eval:

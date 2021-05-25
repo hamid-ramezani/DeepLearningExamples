@@ -480,11 +480,12 @@ def train_iteration(model, i, mems, data_chunks, target_chunks, scaler,
         mems[i] = mems[i].to(cpu, non_blocking=True)
 
     if args.fp16:
-        if args.amp == 'pytorch':
-            scaler.scale(loss).backward()
-        elif args.amp == 'apex':
-            with amp.scale_loss(loss, optimizer, delay_unscale=delay_unscale) as scaled_loss:
-                scaled_loss.backward()
+        #if args.amp == 'pytorch':
+        #    scaler.scale(loss).backward()
+        scaler.scale(loss).backward()
+        #elif args.amp == 'apex':
+        #    with amp.scale_loss(loss, optimizer, delay_unscale=delay_unscale) as scaled_loss:
+        #        scaled_loss.backward()
     else:
         loss.backward()
 
